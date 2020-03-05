@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "eslint": "^6.8.0",
     "eslint-config-rallycoding": "^3.2.0",
     "expo": "~36.0.0",
     "react": "~16.9.0",
