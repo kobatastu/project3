@@ -7,7 +7,7 @@
     "start": "./node_modules/.bin/ts-node server.ts"
   },
   "dependencies": {
-    "apollo-server": "^2.11.0",
+    "apollo-server": "^2.14.2",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   }
