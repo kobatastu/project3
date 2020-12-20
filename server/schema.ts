@@ -10,4 +10,4 @@ export const type = gql`
   type Query {
     comments: [Comment]
   }
-`
+`;

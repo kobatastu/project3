@@ -1,7 +1,7 @@
-import { comments } from '../infra/store'
+import { comments } from '../infra/store';
 
 export const resolvers = {
   Query: {
-    comments: () => comments
-  }
-}
+    comments: () => comments,
+  },
+};
