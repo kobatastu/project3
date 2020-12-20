@@ -1,12 +1,6 @@
 import { ApolloServer, makeExecutableSchema } from 'apollo-server';
-import { type } from './src/schema/type'
-import { comments } from './store'
-
-const resolvers = {
-  Query: {
-    comments: () => comments
-  }
-}
+import { type } from './schema'
+import { resolvers } from './src/resolvers/resolver'
 
 const schema = makeExecutableSchema({
   resolvers,
