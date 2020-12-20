@@ -1,9 +1,8 @@
 {
   "name": "apolloServer",
-  "version": "1.0.0",
   "main": "app.ts",
   "scripts": {
-    "start": "build",
+    "start": "node build/app.js",
     "start-dev": "ts-node app.ts",
     "eslint": "eslint --ext .ts .",
     "clean": "rm -rf ./build && mkdir ./build",
@@ -12,7 +11,7 @@
     "docker-build": "docker image build ./ -t project3"
   },
   "dependencies": {
-    "apollo-server": "^2.11.0"
+    "apollo-server": "^2.19.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.10.0",
