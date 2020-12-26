@@ -6,7 +6,6 @@ const ChatroomScreen = (props) => {
   const [message, setMessage] = useState({ messages: [] })
   const {chatContent} = props.route.params.data
 
-
   useEffect(() => {
     chatContent.map((chat,index) => {
       let userName = 'counter';

@@ -8,7 +8,6 @@ import { ApolloProvider } from '@apollo/client'
 import HomeScreen from './src/screens/HomeScreenOverview'
 import ChatScreen from './src/screens/ChatScreenOverview'
 import ChatroomScreen from './src/screens/ChatroomScreenOverview'
-import BoardScreen from './src/screens/BoardScreenOverview'
 import ProfileScreen from './src/screens/ProfileScreenOverview'
 import { apolloClient } from './src/lib/apolloClient'
 
@@ -28,14 +27,6 @@ const ChatStack = () => {
     <Stack.Navigator>
       <Stack.Screen name="Chat" component={ChatScreen} />
       <Stack.Screen name="Chatroom" component={ChatroomScreen} />
-    </Stack.Navigator>
-  )
-}
-
-const BoardStack = () => {
-  return(
-    <Stack.Navigator>
-      <Stack.Screen name="Board" component={BoardScreen} />
     </Stack.Navigator>
   )
 }
@@ -74,11 +65,6 @@ export default function App() {
                   ? 'chat-bubble'
                   : 'chat-bubble-outline';
                   return <MaterialIcons name={iconName} size={size} color={color}/>
-              } else if (route.name === 'Board') {
-                iconName = focused
-                  ? 'clipboard'
-                  : 'clipboard-outline';
-                  return <MaterialCommunityIcons name={iconName} size={size} color={color}/>
               } else if (route.name === 'Profile') {
                 iconName = focused
                   ? 'user-circle'
@@ -94,7 +80,6 @@ export default function App() {
         >
           <Tab.Screen name = 'Home' component = {HomeStack} />
           <Tab.Screen name = 'Chat' component = {ChatStack} />
-          <Tab.Screen name = 'Board' component = {BoardStack} />
           <Tab.Screen name = 'Profile' component = {ProfileStack} />
         </Tab.Navigator>
       </NavigationContainer>
