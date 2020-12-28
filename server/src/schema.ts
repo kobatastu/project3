@@ -13,6 +13,7 @@ export const type = gql`
   type ChatContent {
     userId: ID
     content: String
+    createdAt: Int
   }
 
   type RoomMember {
@@ -28,11 +29,15 @@ export const type = gql`
 
   type Query {
     profs: [Prof]
-    prof(userId: Int): Prof
-    chats(userId: Int): [Chat]
+    prof(userId: String): Prof
+    chats(userId: String): [Chat]
+  }
+
+  type Mutation {
+    addChat(roomId: String, userId: String, createdAt: Int, content: String): Chat
   }
 
   type Subscription {
-    AddChatContent: Chat
+    subscribeChat: Chat
   }
 `;

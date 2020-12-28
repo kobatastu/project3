@@ -1,8 +1,9 @@
-import { gql, useQuery } from "@apollo/client"
+import { useEffect, useState } from 'react';
+import { gql, useQuery, useSubscription } from '@apollo/client';
 
 const CHAT_QUERY = gql`
   {
-    chats(userId:1){
+    chats(userId:"1"){
       roomId
       roomMember {
         userId
@@ -11,15 +12,46 @@ const CHAT_QUERY = gql`
       chatContent {
         userId
         content
+        createdAt
       }
     }
   }
 `;
 
-export const useChatInfo = () => {
-  const { loading, error, data } = useQuery(CHAT_QUERY);
-  if (loading) return null;
-  if (error) return new Error('error');
-  if (!data) return new Error('There is no data');
-  return {chats: data.chats}
+const CHAT_SUBSCRIPTION = gql`
+subscription {
+  subscribeChat{
+    chatContent {
+      userId
+      content
+      createdAt
+    }
+  }
 }
+`;
+
+export const useChatInfo = () => {
+  const [chatData, setChatData] = useState([]);
+  const { loading, error, data } = useQuery(CHAT_QUERY);
+
+  // subscriptionはまだ実装できていない
+  useSubscription(
+    CHAT_SUBSCRIPTION,
+    { onSubscriptionData: ({ subscriptionData }) => {
+      const addData = subscriptionData.data.subscribeChat;
+      console.log('ここ', subscriptionData);
+      setChatData([...chatData, addData]);
+    } }
+  );
+
+  useEffect(() => {
+    if (data) {
+      setChatData(data.chats);
+    }
+  }, [data]);
+
+  if (loading) return null;
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error('There is no data');
+  return { chats: data.chats };
+};

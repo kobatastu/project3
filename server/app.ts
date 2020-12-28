@@ -1,32 +1,28 @@
 import express from 'express';
-import { ApolloServer, makeExecutableSchema, PubSub } from 'apollo-server-express';
+import http from 'http';
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 
-import { type } from './schema';
+import { type } from './src/schema';
 import { resolvers } from './src/resolvers/resolver';
 
-// const pubsub = new PubSub();
 const app = express();
 const PORT = 4000;
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 const schema = makeExecutableSchema({
   resolvers,
   typeDefs: [type],
 });
-
 const server = new ApolloServer({ schema });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 server.applyMiddleware({ app, path: '/graphql' });
 
-// exports.graphql = https.onRequest(server.createGraphQLServerOptions);
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
 
-app.listen({ port: PORT }, () => {
-  console.log(`Server ready at PORT: ${PORT}`);
+httpServer.listen(PORT, () => {
+  console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  console.log(`Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`);
 });
-
-// server.listen().then(({url, subscriptionsUrl})=> {
-//   console.log(`Server ready at ${url}`);
-//   console.log(`Subscriptions ready at ${subscriptionsUrl}`)
-// })

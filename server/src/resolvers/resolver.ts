@@ -1,4 +1,8 @@
+import { PubSub } from 'apollo-server';
+
 import { profs, chats } from '../infra/store';
+
+const pubsub = new PubSub();
 
 export const resolvers = {
   Query: {
@@ -24,24 +28,28 @@ export const resolvers = {
       return result;
     },
   },
-  // Mutation: {
-  //   addChat: (root, args) => {
-  //     chats[roomId].chatContent.push({
-  //       userId: args.userId,
-  //       content: args.content
-  //     });
-  //     pubsub.publish("ADD_CHAT",{
-  //       subscribeChat: {
-  //         userId: args.userId,
-  //         content: args.content
-  //       }
-  //     });
-  //     return chats
-  //   }
-  // },
-  // Subscription: {
-  //   subscribeChat: {
-  //     subscribe: () => pubsub.asyncIterator(["ADD_CHAT"])
-  //   }
-  // }
+  Mutation: {
+    addChat: (root, args) => {
+      const userChats = chats.find((p) => p.roomId === args.roomId);
+      userChats.chatContent.push({
+        userId: args.userId,
+        content: args.content,
+        createdAt: args.createdAt,
+      });
+      pubsub.publish('ADD_CHAT', {
+        subscribeChat: {
+          userId: args.userId,
+          content: args.content,
+          createdAt: args.createdAt,
+        },
+      });
+      return userChats;
+    },
+  },
+  // subscriptionはまだ実装できていない
+  Subscription: {
+    subscribeChat: {
+      subscribe: () => pubsub.asyncIterator(['ADD_CHAT']),
+    },
+  },
 };

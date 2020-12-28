@@ -1,6 +1,8 @@
 {
   "extends": "rallycoding",
   "rules": {
-    "arrow-body-style": 0
+    "arrow-body-style": 0,
+    "import/no-unresolved": "off",
+    "global-require": "off"
   }
 }

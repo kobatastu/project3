@@ -1,8 +1,8 @@
-import { gql, useQuery } from "@apollo/client"
+import { gql, useQuery } from '@apollo/client';
 
 const PROF_QUERY = gql`
   {
-    prof(userId: 1){
+    prof(userId: "1"){
       userId
       userName
       icon
@@ -15,7 +15,7 @@ const PROF_QUERY = gql`
 export const useProfInfo = () => {
   const { loading, error, data } = useQuery(PROF_QUERY);
   if (loading) return null;
-  if (error) return new Error('error');
-  if (!data) return new Error('There is no data');
-  return {prof: data.prof}
-}
+  if (error) throw new Error(error.message);
+  if (!data) throw new Error('There is no data');
+  return { prof: data.prof };
+};
