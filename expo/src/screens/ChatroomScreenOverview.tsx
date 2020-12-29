@@ -7,7 +7,7 @@ import { ADD_CHAT } from '../hooks/useChatMutation';
 const ChatroomScreen = (props) => {
   const [message, setMessage] = useState({ messages: [] });
   const [addChat] = useMutation(ADD_CHAT);
-  const { chatContent } = props.route.params.data;
+  const { chatContent, roomId } = props.route.params.data;
 
   useEffect(() => {
     chatContent.forEach((chat, index) => {
@@ -34,7 +34,7 @@ const ChatroomScreen = (props) => {
   const onSend = (additionalMessage) => {
     addChat({
       variables: {
-        roomId: '1',
+        roomId,
         userId: '1', 
         createdAt: Math.floor(new Date().getTime() / 1000),
         content: additionalMessage[0].text
